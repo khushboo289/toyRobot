@@ -42,4 +42,47 @@ public class Robot {
 		this.direction = direction; 	
 	}
 	
+	public void changeCoordinates (int x, int y){
+		this.x = this.x + x;
+		this.y = this.y + y;
+	}
+
+	public void moveLeft(String direction) {
+		String newDirection = null;
+		switch (direction){
+			case "NORTH":
+				newDirection = "WEST";
+			break;
+			case "WEST":
+				newDirection = "SOUTH";
+			break;
+			case "EAST":
+				newDirection = "NORTH";
+			break;
+			case "SOUTH":
+				newDirection = "EAST";
+			break;
+		}
+		this.direction = newDirection;
+	}
+
+	public void moveRight(String direction) {
+		String newDirection = null;
+		System.out.println(direction+"direction");
+		switch (direction){
+			case "NORTH":
+				newDirection = "EAST";
+			break;
+			case "WEST":
+				newDirection = "NORTH";
+			break;
+			case "EAST":
+				newDirection = "SOUTH";
+			break;
+			case "SOUTH":
+				newDirection = "WEST";
+			break;
+		}
+		this.direction = newDirection;		
+	}
 }

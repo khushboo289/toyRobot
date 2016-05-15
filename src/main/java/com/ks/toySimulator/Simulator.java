@@ -27,6 +27,7 @@ public class Simulator {
 	public String proceed(String inputString) {
 		
 		String output = null;
+		String[] arr, move;
 				
 		//check if table is valid
 		if(table == null){
@@ -34,7 +35,26 @@ public class Simulator {
 			return null;
 		}
 		
-		String arr[] = inputString.split(" ");
+		arr = inputString.split(" ");
+		int x = 0, y = 0;
+		String direction = null;
+        try {
+        	move = arr[1].split(",");
+            x = Integer.parseInt(move[0]);
+            y = Integer.parseInt(move[1]);
+            direction = move[2];
+            
+            if (!validDirection.contains(direction)){
+            	output = "Invalid move";
+            }
+            
+            if (!isvalidPosition(x, y)){
+            	output = "Invalid move";
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            output = "Invalid move";
+        }
 		
 		//checking for valid moves
 		if (validValues.contains(arr[0])){
@@ -43,34 +63,28 @@ public class Simulator {
 			
 			switch(command){
 				case "PLACE":
-					String[] move = arr[1].split(",");
-		            try {
-		                int x = Integer.parseInt(move[0]);
-		                int y = Integer.parseInt(move[1]);
-		                String direction = move[2];
-		                
-		                if (!validDirection.contains(direction)){
-		                	System.out.println("Invalid direction");
-		                	return null;
-		                }
-		                
-		                if (!isvalidPosition(x, y)){
-		                	System.out.println("Invalid move");
-		                	return null;
-		                }
-		                robot.setPosition(x, y, direction);
-		            } catch (Exception e) {
-		                System.out.println(e.getMessage());
-		            }
+		            robot.setPosition(x, y, direction);
 		        break;
 				case "MOVE":
+					getNextPlace(robot.getX(), robot.getY(), robot.getDirection());
+					if (robot == null || !isvalidPosition(robot.getX(), robot.getY())){
+						output = "false";
+					} else {
+						output = "Output: "+ this.robot.getX() + ", "+ this.robot.getY()+ ", "+this.robot.getDirection();
+					}
 				break;
 				case "LEFT":
+					robot.moveLeft(robot.getDirection());
 				break;
 				case "RIGHT":
+					robot.moveRight(robot.getDirection());
 				break;
 				case "REPORT":
-					output = "Output: "+ this.robot.getX() + ", "+ this.robot.getY()+ ", "+this.robot.getDirection();
+					if (robot.getDirection() != null){
+						output = "Output: "+ this.robot.getX() + ", "+ this.robot.getY()+ ", "+this.robot.getDirection();
+					} else {
+						output = "Invalid move";
+					}
 				break;
 				default:
 					System.out.println("Invalid Move");
@@ -84,5 +98,27 @@ public class Simulator {
 	private boolean isvalidPosition(int x, int y){
 		return !(x > this.table.columns || x < 0 || y > this.table.rows || y <0);
 	}
+
+	public void getNextPlace(int x, int y, String direction) {
+	    
+	    if (robot.direction != null){
+	    	
+			switch (direction) {
+				
+				case "NORTH":
+					robot.changeCoordinates(0, 1);
+				break;
+				case "SOUTH":
+					robot.changeCoordinates(0, -1);
+				break;    
+				case "EAST":
+					robot.changeCoordinates(1, 0);
+				break;
+				case "WEST":
+				 	robot.changeCoordinates(-1, 0);
+				break;
+			}
+	    }
+    }
 
 }
