@@ -58,10 +58,22 @@ public class Simulator {
 		                	System.out.println("Invalid move");
 		                	return null;
 		                }
-		                output  = placeRobot(x, y, direction);
+		                robot.setPosition(x, y, direction);
 		            } catch (Exception e) {
 		                System.out.println(e.getMessage());
 		            }
+		        break;
+				case "MOVE":
+				break;
+				case "LEFT":
+				break;
+				case "RIGHT":
+				break;
+				case "REPORT":
+					output = "Output: "+ this.robot.getX() + ", "+ this.robot.getY()+ ", "+this.robot.getDirection();
+				break;
+				default:
+					System.out.println("Invalid Move");
 			}
 		} else {
 			System.out.println("Invalid move");
@@ -69,11 +81,6 @@ public class Simulator {
 		return output;
 	}
 
-	private String placeRobot(int x, int y, String direction) {
-		
-		return null;
-	}
-	
 	private boolean isvalidPosition(int x, int y){
 		return !(x > this.table.columns || x < 0 || y > this.table.rows || y <0);
 	}
